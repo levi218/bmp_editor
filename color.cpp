@@ -18,7 +18,7 @@ namespace llib{
 		destination->b=source->b;
 
 	}
-	const char * const colorsName[] = {"blue","green","red"};
+    const char * const colorsName[] = {"red","green","blue"};
 	const Color colorsVal[] = {{255,0,0},{0,255,0},{0,0,255}};
 	const Color* strToColor(char* str){
 		for(int i=0;i<3;i++){

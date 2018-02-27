@@ -37,8 +37,8 @@ int main(int argc, char **argv){
     int filled=0;
     int thickness=1;
     Vector top_left={0,0};
-	Vector bot_right={0,0};
-	Color color = {0,0,0};
+    Vector bot_right={0,0};
+    Color color = {0,0,0};
     short mode=4;
     char *fileName;
     while (1)
@@ -156,61 +156,61 @@ int main(int argc, char **argv){
 	        
 	        case '?':
 	        	err_message=ERR_ARG_FORM;
-	          break;
+                        break;
 
 	        default:
-	          break;
-        }
+                        break;
+            }
 	}
 
-    if (optind < argc)
-    {
-    	fileName=argv[optind++];
-    }else{
-    	err_message=ERR_FILE_NOT_FOUND;
-    }
+        if (optind < argc)
+        {
+            fileName=argv[optind++];
+        }else{
+            err_message=ERR_FILE_NOT_FOUND;
+        }
 
-    Header *header;
-	Bitmap bitmap;
-	BMPLib::readBitmap("test1.bmp",&header,&bitmap);
-	
-	if(err_message!=NULL) {
-    	printf("%s",err_message);
-    	return 0;
+        Header *header;
+        Bitmap bitmap;
+        BMPLib::readBitmap("test1.bmp",&header,&bitmap);
+
+        if(err_message!=NULL) {
+        printf("%s",err_message);
+        return 0;
     }
 
 
     Vector img_size = {header->img_width,header->img_height};
-	clampCoordinate(&top_left,&img_size);
-	clampCoordinate(&bot_right,&img_size);
-	
-	mirrorYAxis(&top_left,header->img_height);
-	mirrorYAxis(&bot_right,header->img_height);
+    clampCoordinate(&top_left,&img_size);
+    clampCoordinate(&bot_right,&img_size);
 
-	switch(mode){
-    	case MODE_DRAW_REC:
-    		if(filled)
-    		{
-    			BMPLib::drawRectangle(bitmap,&top_left,&bot_right,&color,INT_MAX);
-    		}else{
-    			BMPLib::drawRectangle(bitmap,&top_left,&bot_right,&color,thickness);	
-    		}
-			break;
-		case MODE_SWAP:
-			BMPLib::swapRegions(bitmap,&top_left,&bot_right);
-			break;
-		case MODE_REPLACE:
-			BMPLib::replaceMostCommon(bitmap,&img_size,&color);
-			break;
-		case MODE_PRINT_HELP:
-			printHelp();
-			break;
-		default:
-			printf("Command not recognized");
-			break;
+    mirrorYAxis(&top_left,header->img_height);
+    mirrorYAxis(&bot_right,header->img_height);
+
+    switch(mode){
+    case MODE_DRAW_REC:
+            if(filled)
+            {
+                    BMPLib::drawRectangle(bitmap,&top_left,&bot_right,&color,INT_MAX);
+            }else{
+                    BMPLib::drawRectangle(bitmap,&top_left,&bot_right,&color,thickness);
+            }
+                    break;
+            case MODE_SWAP:
+                    BMPLib::swapRegions(bitmap,&top_left,&bot_right);
+                    break;
+            case MODE_REPLACE:
+                    BMPLib::replaceMostCommon(bitmap,&img_size,&color);
+                    break;
+            case MODE_PRINT_HELP:
+                    printHelp();
+                    break;
+            default:
+                    printf("Command not recognized");
+                    break;
     }
 
-	BMPLib::writeBitmap("test1.bmp",header,bitmap);
-	BMPLib::freeFile(header,bitmap);
-	return 0;
+    BMPLib::writeBitmap("test1.bmp",header,bitmap);
+    BMPLib::freeFile(&header,&bitmap);
+    return 0;
 }

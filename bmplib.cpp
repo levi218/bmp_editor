@@ -96,39 +96,66 @@ namespace llib{
 		}
 	}
 
-	void BMPLib::readBitmap(const char* fileName, Header **header, Bitmap *bitmap){
+    void BMPLib::readBitmap(const char* fileName, Header **header, Bitmap *bitmap){
 		FILE *file;
 		file = fopen(fileName,"rb+");
-		if(file==NULL) err_message=ERR_FILE_NOT_FOUND;
-		*header = (Header*) malloc(sizeof(Header));
+        if(file==NULL) {err_message=ERR_FILE_NOT_FOUND; return;}
+        if((*header)==NULL)
+            *header = (Header*) malloc(sizeof(Header));
 		fread((*header),sizeof(Header),1,file);
 		
 		int row_size = ((*header)->bpp*((*header)->img_width)+31)/32*4;
 		
 		fseek(file,((*header)->file_header).bitmap_offset,SEEK_SET);
-		char* data = (char*) malloc(sizeof(char)*row_size*((*header)->img_height));
-		*bitmap = (Bitmap) malloc(sizeof(Color*)*((*header)->img_height));
+        char* data = NULL;
+        if((*bitmap)==NULL){
+            data = (char*) malloc(sizeof(char)*row_size*((*header)->img_height));
+            *bitmap = (Bitmap) malloc(sizeof(Color*)*((*header)->img_height));
+        }
 		for(int i=0;i<((*header)->img_height);i++){
 			*((*bitmap)+i)=(Color*) ((void*)((char*)data+i*row_size));
 			fread(*((*bitmap)+i),row_size,1,file);
 		}	
+        for(int i=0;i<(*header)->img_height;i++){
+            for(int j=0;j<(*header)->img_width;j++){
+                unsigned char t = (*((*bitmap)+i)+j)->b;
+                (*((*bitmap)+i)+j)->b = (*((*bitmap)+i)+j)->r;
+                (*((*bitmap)+i)+j)->r=t;
+            }
+        }
 		fclose(file);
 	}
+
 	void BMPLib::writeBitmap(const char* fileName, Header *header, Bitmap bitmap){
 		FILE *file;
-		file = fopen("test1.bmp","rb+");
-		//WRITE
-		int row_size = (header->bpp*(header->img_width)+31)/32*4;
-		fseek(file,(header->file_header).bitmap_offset,SEEK_SET);
-		for(int i=0;i<(header->img_height);i++){
-			fwrite(*(bitmap+i),row_size,1,file);
-		}
+        file = fopen(fileName,"rb+");
+        if(file==NULL) {err_message=ERR_FILE_NOT_FOUND; printf("%s",fileName); return;}
+
+        //WRITE
+        int row_size = (header->bpp*(header->img_width)+31)/32*4;
+        fseek(file,(header->file_header).bitmap_offset,SEEK_SET);
+        unsigned char t;
+        for(int i=0;i<(header->img_height);i++){
+            for(int j=0;j<header->img_width;j++){
+                t = (*(bitmap+i)+j)->b;
+                (*(bitmap+i)+j)->b = (*(bitmap+i)+j)->r;
+                (*(bitmap+i)+j)->r=t;
+            }
+            fwrite(*(bitmap+i),row_size,1,file);
+            for(int j=0;j<header->img_width;j++){
+                t = (*(bitmap+i)+j)->b;
+                (*(bitmap+i)+j)->b = (*(bitmap+i)+j)->r;
+                (*(bitmap+i)+j)->r=t;
+            }
+        }
 		fflush(file);
 		fclose(file);	
 	}
-	void BMPLib::freeFile(Header *header, Bitmap bitmap){
-		free((char*)*(bitmap+0));
-		free(bitmap);
-		free(header);
+    void BMPLib::freeFile(Header **header, Bitmap *bitmap){
+        free((char*)*((*bitmap)+0));
+        free(*bitmap);
+        free(*header);
+        *header=NULL;
+        bitmap=NULL;
 	}
 }
