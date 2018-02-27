@@ -40,7 +40,7 @@ namespace llib{
 
 	typedef Color** Bitmap;
 	#endif
-	class BMPLib {
+	namespace BMPLib {
 		public:
 			static void count(Node **head,Color *color);
 
