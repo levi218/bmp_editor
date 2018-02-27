@@ -41,15 +41,14 @@ namespace llib{
 	typedef Color** Bitmap;
 	#endif
 	namespace BMPLib {
-		public:
-			static void count(Node **head,Color *color);
+                void count(Node **head,Color *color);
 
-			static void drawRectangle(Bitmap bitmap, const Vector *top_left, const Vector *bot_right, Color *color, int thickness);
-			static void swapRegions(Bitmap bitmap, const Vector *top_left, const Vector *bot_right);
-			static void replaceMostCommon(Bitmap bitmap, const Vector *img_size, Color *replace_by);
+                void drawRectangle(Bitmap bitmap, const Vector *top_left, const Vector *bot_right, Color *color, int thickness);
+                void swapRegions(Bitmap bitmap, const Vector *top_left, const Vector *bot_right);
+                void replaceMostCommon(Bitmap bitmap, const Vector *img_size, Color *replace_by);
 
-			static void readBitmap(const char* fileName, Header **header, Bitmap *bitmap);
-			static void writeBitmap(const char* fileName, Header *header, Bitmap bitmap);
-			static void freeFile(Header *header, Bitmap bitmap);
+                void readBitmap(const char* fileName, Header **header, Bitmap *bitmap);
+                void writeBitmap(const char* fileName, Header *header, Bitmap bitmap);
+                void freeFile(Header *header, Bitmap bitmap);
 	};
 }
