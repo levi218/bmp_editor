@@ -122,14 +122,19 @@ void MainWindow::on_actionOpen_triggered()
 {
     qfile = QFileDialog::getOpenFileName(this,
         tr("Open Bitmap"), "", tr("BMP File (*.bmp)"));
+    //QMessageBox::about(this,tr("Error"),qfile);
     if(qfile==Q_NULLPTR) {
         return;
     }
-    const char *fileName = qfile.toStdString().c_str();
+    char *fileName = (char*) malloc((qfile.length()+5)*sizeof(char));
+    strcpy(fileName,qfile.toStdString().c_str());
+    printf("%s",fileName);
     if(header!=NULL){
         llib::BMPLib::freeFile(&header,&bitmap);
     }
     llib::BMPLib::readBitmap(fileName,&header,&bitmap);
+
+
     if(err_message!=NULL){
         QMessageBox::critical(this,tr("Error"),tr(err_message),QMessageBox::Ok);
         return;

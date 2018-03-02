@@ -126,7 +126,7 @@ namespace llib{
                 (*((*bitmap)+i)+j)->r=t;
             }
         }
-		fclose(file);
+        fclose(file);
 	}
 
 	void BMPLib::writeBitmap(const char* fileName, Header *header, Bitmap bitmap){
