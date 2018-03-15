@@ -16,7 +16,8 @@
 #include "libs/utilities.h"
 #include "libs/error_message.h"
 #include "libs/bmplib.h"
-
+#include "about.h"
+#include "dialoginfor.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -117,6 +118,15 @@ void MainWindow::btnSwap_clicked(){
     mode=MODE_SWAP;
     toggleSelectionMode();
 }
+void MainWindow::on_actionAbout_triggered(){
+    About *dialog = new About(this);
+    dialog->show();
+}
+void MainWindow::on_actionFileInfor_triggered(){
+    DialogInfor *dialog = new DialogInfor(this);
+    dialog->setup(header,qfile);
+    dialog->show();
+}
 
 void MainWindow::on_actionOpen_triggered()
 {
@@ -152,6 +162,7 @@ void MainWindow::on_actionOpen_triggered()
         if(p!=Q_NULLPTR) ui->imageView->fitInView(p, Qt::KeepAspectRatio);
 
         ui->actionSave->setEnabled(true);
+        ui->actionFileInfor->setEnabled(true);
         setToolbarStates(true);
     }
 }

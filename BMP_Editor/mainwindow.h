@@ -27,6 +27,8 @@ public:
 private slots:
         void on_actionOpen_triggered();
 
+        void on_actionFileInfor_triggered();
+        void on_actionAbout_triggered();
         void on_actionSave_triggered();
         void btnRectangle_clicked();
         void btnReplace_clicked();

@@ -167,6 +167,7 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
+   <addaction name="actionFileInfor"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -179,6 +180,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionAbout"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -211,6 +213,33 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/images/about.png</normaloff>:/images/about.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About this application</string>
+   </property>
+  </action>
+  <action name="actionFileInfor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/images/infor.png</normaloff>:/images/infor.png</iconset>
+   </property>
+   <property name="text">
+    <string>FileInfor</string>
+   </property>
+   <property name="toolTip">
+    <string>Show information about this file</string>
    </property>
   </action>
  </widget>
