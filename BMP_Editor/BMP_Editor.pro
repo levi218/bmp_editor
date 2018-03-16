@@ -28,7 +28,9 @@ SOURCES += \
         mainwindow.cpp \
         libs/bmplib.cpp \
         libs/color.cpp \
-        libs/utilities.cpp
+        libs/utilities.cpp \
+    about.cpp \
+    dialoginfor.cpp
 
 
 HEADERS += \
@@ -36,10 +38,14 @@ HEADERS += \
         libs/bmplib.h \
         libs/color.h \
         libs/utilities.h \
-        libs/error_message.h
+        libs/error_message.h \
+    about.h \
+    dialoginfor.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    about.ui \
+    dialoginfor.ui
 
 RESOURCES += \
     Resources/resources.qrc
