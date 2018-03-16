@@ -159,6 +159,6 @@ namespace llib{
         free(*bitmap);
         free(*header);
         *header=NULL;
-        bitmap=NULL;
+        *bitmap=NULL;
 	}
 }

@@ -1,13 +1,10 @@
-#include "mainwindow.h"
-#include <QApplication>
-
-
 #include <cstdio>
 #include <getopt.h>
+#include "mainwindow.h"
+#include <QApplication>
 #include <cstdlib>
 #include <cctype>
 #include <climits>
-#include <cstdio>
 #include "libs/bmplib.h"
 #include "libs/color.h"
 #include "libs/utilities.h"
@@ -15,15 +12,6 @@
 
 using namespace llib;
 
-/*int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
-}
-*/
 void printHelp();
 int useGUI(int argc, char **argv){
     QApplication a(argc, argv);
@@ -33,7 +21,6 @@ int useGUI(int argc, char **argv){
     return a.exec();
 }
 int main(int argc, char **argv){
-
     if(argc<2){
         return useGUI(argc,argv);
     }
@@ -48,9 +35,8 @@ int main(int argc, char **argv){
     const char *fileName=NULL;
     while (1)
     {
-        static struct option long_options[] =
+        static struct option long_options[10] =
         {
-            //{"verbose", no_argument,       &verbose_flag, 1},
             {"filled",   no_argument, NULL, 'f'},
 
             {"rectangle",     no_argument,       NULL, 'r'},
@@ -63,13 +49,12 @@ int main(int argc, char **argv){
             {"color",    required_argument, NULL, 'c'},
             {"thickness",    required_argument, NULL, 't'},
 
-            {0, 0, 0, 0}
+            {NULL, 0, NULL, 0}
         };
         int option_index = 0;
 
         c = getopt_long (argc, argv, "rpsfha:b:c:t:",
-                           long_options, &option_index);
-        printf("%s",argv[optind-1]);
+                           long_options, NULL);
         if (c == -1)
             break;
 
@@ -132,14 +117,6 @@ int main(int argc, char **argv){
                     }
                 }
                 break;
-                //if (long_options[option_index].flag != 0)
-                //	break;
-                //c=long_options[option_index].val;
-                //printf ("option %s", long_options[option_index].name);
-              //if (optarg)
-              //  printf (" with arg %s", optarg);
-              //printf ("\n");
-              //break;
             case 'f':
                 thickness=INT_MAX;
                 break;
@@ -174,9 +151,12 @@ int main(int argc, char **argv){
         }else{
             err_message=ERR_FILE_NOT_FOUND;
         }
-
-        Header *header;
-        Bitmap bitmap;
+        if(err_message!=NULL) {
+            printf("%s",err_message);
+            return 0;
+        }
+        Header *header=NULL;
+        Bitmap bitmap=NULL;
         BMPLib::readBitmap(fileName,&header,&bitmap);
 
         if(err_message!=NULL) {
